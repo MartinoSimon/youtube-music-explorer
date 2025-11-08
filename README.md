@@ -1,20 +1,20 @@
 # 🎵 YouTube Music Explorer
 
-Una app sencilla que busca videos musicales aleatorios de YouTube según el género elegido por el usuario.
+A simple app that searches random music videos from YouTube based on the genre selected by the user.
 
-## Tecnologías usadas
+## Technologies used
 
 - Python
 - Streamlit
 - YouTube Data API v3
 
-## Cómo ejecutar localmente
+## How to run locally
 
-1. Clona este repositorio
-2. Instala las dependencias: `pip install -r requirements.txt`
-3. Ejecuta: `streamlit run app.py`
-4. Abre [http://localhost:8501](http://localhost:8501)
+1. Clone this repository
+2. Install dependencies: `pip install -r requirements.txt`
+3. Run: `streamlit run app.py`
+4. Open [http://localhost:8501](http://localhost:8501)
 
 ## API Key
 
-Necesitas una API Key de YouTube. Puedes obtenerla en [Google Cloud Console](https://console.cloud.google.com/).
+You need a YouTube API Key. Get it at [Google Cloud Console](https://console.cloud.google.com/).

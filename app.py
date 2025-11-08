@@ -28,24 +28,36 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Título
 st.title("🎵 YouTube Music Explorer")
 
-# Selector de género con íconos
 genre = st.selectbox(
-    "Selecciona un género musical:",
-    ["pop", "rock", "jazz", "electrónica", "latina", "relajante"],
+    "Select a music genre:",
+    [
+        "pop", "rock", "jazz", "electronic", "latin", "relaxing",
+        "hip hop", "classical", "country", "reggaeton", "indie",
+        "metal", "blues", "soul", "disco", "punk"
+    ],
     format_func=lambda x: {
         "pop": "Pop 🎤",
         "rock": "Rock 🎸",
         "jazz": "Jazz 🎷",
-        "electrónica": "Electrónica 🎛️",
-        "latina": "Latina 🥥",
-        "relajante": "Relajante 🧘‍♂️"
+        "electronic": "Electronic 🎛️",
+        "latin": "Latin 🥥",
+        "relaxing": "Relaxing 🧘‍♂️",
+        "hip hop": "Hip Hop 🎤",
+        "classical": "Classical 🎼",
+        "country": "Country 🤠",
+        "reggaeton": "Reggaeton 🥥",
+        "indie": "Indie 🎸",
+        "metal": "Metal 🤘",
+        "blues": "Blues 🎷",
+        "soul": "Soul 🎹",
+        "disco": "Disco 🕺",
+        "punk": "Punk 🤪"
     }[x]
 )
 
-if st.button("🎵 ¡Reproducir canción aleatoria!"):
+if st.button("🎵 Play random song!"):
     API_KEY = os.getenv("YOUTUBE_API_KEY")
     BASE_URL = "https://www.googleapis.com/youtube/v3/search"
 
