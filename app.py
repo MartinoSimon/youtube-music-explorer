@@ -27,6 +27,11 @@ st.markdown("""
             border-radius: 10px;
         }
     </style>
+            <style>
+        section[data-testid="stSidebar"] {
+            width: 300px !important;
+        }
+    </style>
     """, unsafe_allow_html=True)
 
 st.title("🎵 YouTube Music Explorer")
@@ -94,7 +99,7 @@ if st.button("🎵 Play random song!"):
             st.video(f"https://www.youtube.com/embed/{video_id}")
 
             st.sidebar.subheader("🎵 Recently Played")
-            for item in st.session_state.history:
+            for item in reversed(st.session_state.history):
                 st.sidebar.write(f"• {item['title']} - {item['channel']} ({item['timestamp']})")
     else:
         st.error("No videos found. Try another genre.")
