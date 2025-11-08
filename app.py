@@ -26,8 +26,6 @@ st.markdown("""
         .stVideo {
             border-radius: 10px;
         }
-    </style>
-            <style>
         section[data-testid="stSidebar"] {
             width: 300px !important;
         }
