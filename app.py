@@ -1,16 +1,15 @@
 import streamlit as st
 import requests
 import random
+import os
 
-# Configuración de la página
 st.set_page_config(
     page_title="🎵 YouTube Music Explorer",
-    page_icon="🎵",
+    page_icon="",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# Estilo CSS personalizado
 st.markdown("""
     <style>
         .main {
@@ -47,8 +46,7 @@ genre = st.selectbox(
 )
 
 if st.button("🎵 ¡Reproducir canción aleatoria!"):
-    # API Key de YouTube (debes crearla en Google Cloud Console)
-    API_KEY = "AIzaSyDF2HqnhLnth_FhQ-zEw-6Hh75H-PV3BgY"
+    API_KEY = os.getenv("YOUTUBE_API_KEY")
     BASE_URL = "https://www.googleapis.com/youtube/v3/search"
 
     params = {
