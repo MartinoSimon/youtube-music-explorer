@@ -77,10 +77,6 @@ if st.button("🎵 Play random song!"):
             video_id = video["id"]["videoId"]
             video_title = video["snippet"]["title"]
             video_channel = video["snippet"]["channelTitle"]
-            
-            thumbnail_url = video["snippet"]["thumbnails"]["high"]["url"]
-
-            st.image(thumbnail_url, caption=f"{video_title} - {video_channel}", use_container_width=True)
 
             st.subheader(f"**{video_title}**")
             st.write(f"by {video_channel}")
