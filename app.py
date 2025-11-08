@@ -73,13 +73,19 @@ if st.button("🎵 Play random song!"):
     data = response.json()
 
     if "items" in data and len(data["items"]) > 0:
-        video = random.choice(data["items"])
-        video_id = video["id"]["videoId"]
-        video_title = video["snippet"]["title"]
-        video_channel = video["snippet"]["channelTitle"]
+            video = random.choice(data["items"])
+            video_id = video["id"]["videoId"]
+            video_title = video["snippet"]["title"]
+            video_channel = video["snippet"]["channelTitle"]
+            
+            thumbnail_url = video["snippet"]["thumbnails"]["high"]["url"]
 
-        st.subheader(f"**{video_title}**")
-        st.write(f"por {video_channel}")
-        st.video(f"https://www.youtube.com/embed/{video_id}")
+            st.image(thumbnail_url, caption=f"{video_title} - {video_channel}", use_container_width=True)
+
+            st.subheader(f"**{video_title}**")
+            st.write(f"by {video_channel}")
+
+            # ✅ Reproductor de video
+            st.video(f"https://www.youtube.com/embed/{video_id}")
     else:
-        st.error("No se encontraron videos. Intenta con otro género.")
+        st.error("No videos found. Try another genre.")
