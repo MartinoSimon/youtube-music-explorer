@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import random
 import os
+import datetime
 
 st.set_page_config(
     page_title="🎵 YouTube Music Explorer",
@@ -78,10 +79,22 @@ if st.button("🎵 Play random song!"):
             video_title = video["snippet"]["title"]
             video_channel = video["snippet"]["channelTitle"]
 
+            if "history" not in st.session_state:
+                st.session_state.history = []
+            
+            st.session_state.history.append({
+                "title": video_title,
+                "channel": video_channel,
+                "timestamp": datetime.datetime.now().strftime("%H:%M:%S")
+            })
+
             st.subheader(f"**{video_title}**")
             st.write(f"by {video_channel}")
 
-            # ✅ Reproductor de video
             st.video(f"https://www.youtube.com/embed/{video_id}")
+
+            st.sidebar.subheader("🎵 Recently Played")
+            for item in st.session_state.history:
+                st.sidebar.write(f"• {item['title']} - {item['channel']} ({item['timestamp']})")
     else:
         st.error("No videos found. Try another genre.")
