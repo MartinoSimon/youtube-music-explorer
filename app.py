@@ -62,14 +62,22 @@ genre = st.selectbox(
 )
 
 if st.button("🎵 Play random song!"):
-    API_KEY = os.getenv("YOUTUBE_API_KEY")
+    st.session_state.selected_genre = genre
+    if ("current_results" not in st.session_state or
+    st.session_state.last_genre != genre ):
+        API_KEY = os.getenv("YOUTUBE_API_KEY")
+
+        if not API_KEY:
+            st.error("⚠️ API Key missing. Contact the developer.")
+            st.stop()
+
     BASE_URL = "https://www.googleapis.com/youtube/v3/search"
 
     params = {
         "part": "snippet",
         "q": f"{genre} music official video",
         "type": "video",
-        "maxResults": 10,
+        "maxResults": 50,
         "key": API_KEY
     }
 
@@ -77,27 +85,58 @@ if st.button("🎵 Play random song!"):
     data = response.json()
 
     if "items" in data and len(data["items"]) > 0:
-            video = random.choice(data["items"])
-            video_id = video["id"]["videoId"]
-            video_title = video["snippet"]["title"]
-            video_channel = video["snippet"]["channelTitle"]
-
-            if "history" not in st.session_state:
-                st.session_state.history = []
-            
-            st.session_state.history.append({
-                "title": video_title,
-                "channel": video_channel,
-                "timestamp": datetime.datetime.now().strftime("%H:%M:%S")
-            })
-
-            st.subheader(f"**{video_title}**")
-            st.write(f"by {video_channel}")
-
-            st.video(f"https://www.youtube.com/embed/{video_id}")
-
-            st.sidebar.subheader("🎵 Recently Played")
-            for item in reversed(st.session_state.history):
-                st.sidebar.write(f"• {item['title']} - {item['channel']} ({item['timestamp']})")
+        st.session_state.current_results = data["items"]
+        st.session_state.last_genre = genre
+        st.session_state.current_index = 0  
+        st.session_state.played_indices = set()  
     else:
         st.error("No videos found. Try another genre.")
+        st.session_state.current_results = []
+
+    if "current_results" in st.session_state and st.session_state.current_results:
+        results = st.session_state.current_results
+
+    available_indices = [
+        i for i in range(len(results))
+        if i not in st.session_state.played_indices
+    ]
+
+    if available_indices:
+        # Elegir un índice aleatorio entre los disponibles
+        index = random.choice(available_indices)
+        st.session_state.current_index = index
+        st.session_state.played_indices.add(index)
+
+        video = results[index]
+        video_id = video["id"]["videoId"]
+        video_title = video["snippet"]["title"]
+        video_channel = video["snippet"]["channelTitle"]
+
+        if "history" not in st.session_state:
+            st.session_state.history = []
+
+        st.session_state.history.append({
+            "title": video_title,
+            "channel": video_channel,
+            "timestamp": datetime.datetime.now().strftime("%H:%M:%S")
+        })
+
+        st.subheader(f"**{video_title}**")
+        st.write(f"by {video_channel}")
+
+        st.video(f"https://www.youtube.com/embed/{video_id}")
+
+        st.sidebar.subheader("🎵 Recently Played")
+        for item in reversed(st.session_state.history):
+            st.sidebar.write(f"• {item['title']} - {item['channel']} ({item['timestamp']})")
+
+        remaining = len(available_indices) - 1
+        if remaining > 0:
+            if st.button("⏭️ Next song"):
+                st.rerun()
+        else:
+            st.info("No more songs available for this genre. Try another one!")
+    else:
+        st.info("No more songs available for this genre. Try another one!")
+
+
