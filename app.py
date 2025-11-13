@@ -104,7 +104,11 @@ if st.button("🎵 Play random song!"):
 
 if "current_results" in st.session_state and st.session_state.current_results:
     results = st.session_state.current_results
-    video = results[index]
+    if "current_index" not in st.session_state:
+        st.session_state.current_index = 0
+
+    video = results[st.session_state.current_index]
+
     video_id = video["id"]["videoId"]
     video_title = video["snippet"]["title"]
     video_channel = video["snippet"]["channelTitle"]
@@ -128,7 +132,11 @@ if "current_results" in st.session_state and st.session_state.current_results:
         st.sidebar.write(f"• {item['title']} - {item['channel']} ({item['timestamp']})")
 
     
-    available_indices = [i for i in range(len(results)) if i not in st.session_state.played_indices]
+    available_indices = [
+    i for i in range(len(results))
+    if i not in st.session_state.played_indices
+]
+
     if available_indices:
         if st.button("⏭️ Next song", key="next_song_button"):
             next_index = random.choice(available_indices)
