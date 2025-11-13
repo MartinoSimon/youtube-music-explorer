@@ -132,7 +132,7 @@ if st.button("🎵 Play random song!"):
 
         remaining = len(available_indices) - 1
         if remaining > 0:
-            if st.button("⏭️ Next song"):
+            if st.button("⏭️ Next song", key="next_song_button"):
                 st.rerun()
         else:
             st.info("No more songs available for this genre. Try another one!")
