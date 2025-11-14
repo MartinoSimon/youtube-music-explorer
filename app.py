@@ -149,4 +149,3 @@ else:
     st.info("No more songs available for this genre. Try another one!")
 
 
-st.write("DEBUG played:", st.session_state.played_indices)
